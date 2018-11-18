@@ -24,7 +24,7 @@ Summary: The Linux kernel
 %global zipsed -e 's/\.ko$/\.ko.xz/'
 %endif
 
-# define buildid .local
+%define buildid .local
 
 # baserelease defines which build revision of this kernel version we're
 # building.  We used to call this fedora_build, but the magical name
@@ -414,6 +414,8 @@ BuildConflicts: rpm < 4.13.0.1-19
 BuildRequires: openssl openssl-devel
 %if %{signkernel}
 BuildRequires: pesign >= 0.10-4
+BuildRequires: nss-tools >= 3.39.0
+%define pe_signing_cert "roxor signing certificate"
 %endif
 %endif
 
@@ -425,6 +427,7 @@ BuildRequires: binutils-%{_build_arch}-linux-gnu, gcc-%{_build_arch}-linux-gnu
 Source0: https://www.kernel.org/pub/linux/kernel/v4.x/linux-%{kversion}.tar.xz
 
 Source11: x509.genkey
+Source19: signing_key.pem
 Source12: remove-binary-diff.pl
 Source15: merge.pl
 Source16: mod-extra.list
@@ -557,6 +560,8 @@ Patch210: disable-i8042-check-on-apple-mac.patch
 Patch211: drm-i915-hush-check-crtc-state.patch
 
 Patch212: efi-secureboot.patch
+
+Patch213: fix-intel-thermal-throttling.patch
 
 # 300 - ARM patches
 Patch300: arm64-Add-option-of-13-for-FORCE_MAX_ZONEORDER.patch
@@ -1306,7 +1311,10 @@ BuildKernel() {
     fi
     %if %{signkernel}
     # Sign the image if we're using EFI
-    %pesign -s -i $KernelImage -o vmlinuz.signed
+    certutil -A -i %{SOURCE19} -n %{pe_signing_cert} -d /etc/pki/pesign/ -t "Pu,Pu,Pu"
+    openssl pkcs12 -export -out key.p12 -inkey %{SOURCE19} -in %{SOURCE19} -passout pass:
+    pk12util -i key.p12 -d /etc/pki/pesign -W ""
+    pesign -c %{pe_signing_cert} --certdir /etc/pki/pesign/ -s -i $KernelImage -o vmlinuz.signed
     if [ ! -s vmlinuz.signed ]; then
         echo "pesigning failed"
         exit 1
