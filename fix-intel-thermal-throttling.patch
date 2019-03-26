@@ -4,13 +4,13 @@ Date: Tue, 27 Feb 2018 10:04:51 +0000
 Subject: [PATCH 1/2] Do not filter thermal modes
 
 ---
- drivers/thermal/int340x_thermal/int3400_thermal.c | 7 +++----
+ drivers/thermal/intel/int340x_thermal/int3400_thermal.c | 7 +++----
  1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/thermal/int340x_thermal/int3400_thermal.c b/drivers/thermal/int340x_thermal/int3400_thermal.c
+diff --git a/drivers/thermal/intel/int340x_thermal/int3400_thermal.c b/drivers/thermal/intel/int340x_thermal/int3400_thermal.c
 index 51c9097eaf7a..e9d58de8b5da 100644
---- a/drivers/thermal/int340x_thermal/int3400_thermal.c
-+++ b/drivers/thermal/int340x_thermal/int3400_thermal.c
+--- a/drivers/thermal/intel/int340x_thermal/int3400_thermal.c
++++ b/drivers/thermal/intel/int340x_thermal/int3400_thermal.c
 @@ -316,10 +316,9 @@ static int int3400_thermal_probe(struct platform_device *pdev)
  
  	platform_set_drvdata(pdev, priv);
@@ -34,13 +34,13 @@ Date: Tue, 27 Feb 2018 10:04:51 +0000
 Subject: [PATCH 2/2] Add some thermal modes and UUIDs
 
   ---
- drivers/thermal/int340x_thermal/int3400_thermal.c | 14 ++++++++++++++
+ drivers/thermal/intel/int340x_thermal/int3400_thermal.c | 14 ++++++++++++++
  1 file changed, 14 insertions(+)
 
-diff --git a/drivers/thermal/int340x_thermal/int3400_thermal.c b/drivers/thermal/int340x_thermal/int3400_thermal.c
+diff --git a/drivers/thermal/intel/int340x_thermal/int3400_thermal.c b/drivers/thermal/intel/int340x_thermal/int3400_thermal.c
 index e26b01c05e82..51c9097eaf7a 100644
---- a/drivers/thermal/int340x_thermal/int3400_thermal.c
-+++ b/drivers/thermal/int340x_thermal/int3400_thermal.c
+--- a/drivers/thermal/intel/int340x_thermal/int3400_thermal.c
++++ b/drivers/thermal/intel/int340x_thermal/int3400_thermal.c
 @@ -22,6 +22,13 @@ enum int3400_thermal_uuid {
  	INT3400_THERMAL_PASSIVE_1,
  	INT3400_THERMAL_ACTIVE,
