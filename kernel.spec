@@ -536,8 +536,6 @@ Patch211: drm-i915-hush-check-crtc-state.patch
 
 Patch212: efi-secureboot.patch
 
-Patch213: fix-intel-thermal-throttling.patch
-
 # 300 - ARM patches
 Patch300: arm64-Add-option-of-13-for-FORCE_MAX_ZONEORDER.patch
 
